@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Areas.Identity.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
