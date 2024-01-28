@@ -487,3 +487,4 @@ wwwroot/lib
 [Hh]istory.txt
 app.db-wal
 app.db-shm
+app.db
