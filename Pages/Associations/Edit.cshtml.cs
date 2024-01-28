@@ -10,7 +10,7 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Associations
 {
-    public class EditModel : PageModel
+    public class EditModel : SiteadminBasePageModel
     {
         private readonly SjcVotersPortal.Data.ApplicationDbContext _context;
 

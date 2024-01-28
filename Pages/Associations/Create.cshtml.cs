@@ -9,7 +9,7 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Associations
 {
-    public class CreateModel : PageModel
+    public class CreateModel : SiteadminBasePageModel
     {
         private readonly SjcVotersPortal.Data.ApplicationDbContext _context;
 

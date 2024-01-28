@@ -9,7 +9,7 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Designations
 {
-    public class DeleteModel : PageModel
+    public class DeleteModel : SiteadminBasePageModel
     {
         private readonly SjcVotersPortal.Data.ApplicationDbContext _context;
 

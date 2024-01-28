@@ -1,4 +1,7 @@
-public static class RoleNames
+public static class NamedConstants
 {
-    public const string? Admin = "Admin";
+    public static class RoleNames
+    {
+        public const string SiteAdmin = "SiteAdmin";
+    }
 }

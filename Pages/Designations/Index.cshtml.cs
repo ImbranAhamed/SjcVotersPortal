@@ -9,7 +9,7 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Designations
 {
-    public class IndexModel : PageModel
+    public class IndexModel : SiteadminBasePageModel
     {
         private readonly SjcVotersPortal.Data.ApplicationDbContext _context;
 
