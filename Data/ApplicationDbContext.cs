@@ -5,8 +5,10 @@ namespace SjcVotersPortal.Data;
 
 public class ApplicationDbContext : IdentityDbContext
 {
-    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
-        : base(options)
+    public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
     {
     }
+    public DbSet<Association> Associations { get; set; }
+    public DbSet<Designation> Designations { get; set; }
+    public DbSet<AssociationDesignation> AssociationDesignations { get; set; }
 }
