@@ -39,5 +39,3 @@ app.UseAuthorization();
 app.MapRazorPages();
 
 app.Run();
-//jquery-validation
-//jquery-validation-unobtrusive
