@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Humanizer;
 using Humanizer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
@@ -20,12 +22,15 @@ namespace SjcVotersPortal.Pages.Associations
             _context = context;
         }
         public List<SelectListItem> Designations { get; set; }
+        public List<SelectListItem> Designations { get; set; }
 
         public IActionResult OnGet()
         {
             Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString())).ToList();
+            Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString())).ToList();
             return Page();
         }
+
 
 
         [BindProperty]
@@ -41,6 +46,7 @@ namespace SjcVotersPortal.Pages.Associations
             {
                 return Page();
             }
+            Debug.WriteLine(DesignationsMapped.Humanize());
             Debug.WriteLine(DesignationsMapped.Humanize());
             _context.Associations.Add(Association);
             foreach (var d in DesignationsMapped)
