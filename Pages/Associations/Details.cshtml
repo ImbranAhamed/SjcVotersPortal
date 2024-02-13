@@ -1,4 +1,5 @@
 @page
+@using Humanizer
 @model SjcVotersPortal.Pages.Associations.DetailsModel
 
 @{
@@ -16,6 +17,13 @@
         </dt>
         <dd class="col-sm-10">
             @Html.DisplayFor(model => model.Association.Name)
+        </dd>
+        <dt class="col-sm-2">
+            Mapped Designations
+        </dt>
+
+        <dd class="col-sm-10">
+            @Model.MappedDesignations.Humanize()
         </dd>
     </dl>
 </div>

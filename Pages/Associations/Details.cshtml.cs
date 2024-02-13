@@ -19,6 +19,7 @@ namespace SjcVotersPortal.Pages.Associations
         }
 
         public Association Association { get; set; } = default!;
+        public string[] MappedDesignations { get; set;}
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,6 +36,7 @@ namespace SjcVotersPortal.Pages.Associations
             else
             {
                 Association = association;
+                MappedDesignations = _context.AssociationDesignations.Where(e => e.AssociationId == association.Id).Select(e=> e.Designation.Name).ToArray();
             }
             return Page();
         }

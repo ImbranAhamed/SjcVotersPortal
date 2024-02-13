@@ -19,8 +19,13 @@ namespace SjcVotersPortal.Pages.Associations
             _context = context;
         }
 
+        public List<SelectListItem> Designations { get; set; }
+
         [BindProperty]
         public Association Association { get; set; } = default!;
+
+        [BindProperty]
+        public int[] DesignationsMapped { get ;set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -34,6 +39,9 @@ namespace SjcVotersPortal.Pages.Associations
             {
                 return NotFound();
             }
+            var dm = _context.AssociationDesignations.Where(e => e.AssociationId == id).Select(e => e.DesignationID)?.ToArray() ?? [];
+            Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString(), dm.Contains(e.Id))).ToList();
+
             Association = association;
             return Page();
         }
@@ -48,6 +56,18 @@ namespace SjcVotersPortal.Pages.Associations
             }
 
             _context.Attach(Association).State = EntityState.Modified;
+
+            //remove existing mappings
+            var dm = _context.AssociationDesignations.Where(e => e.AssociationId == Association.Id);
+            _context.AssociationDesignations.RemoveRange(dm);
+
+            var ndms = new List<AssociationDesignation>();
+            //add  new mappings
+            foreach(var d in DesignationsMapped)
+            {
+                ndms.Add(new AssociationDesignation { Association = Association, DesignationID = d });
+            }
+            _context.AssociationDesignations.AddRange(ndms);
 
             try
             {

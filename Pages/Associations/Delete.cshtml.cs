@@ -52,6 +52,8 @@ namespace SjcVotersPortal.Pages.Associations
             if (association != null)
             {
                 Association = association;
+                var designationsMapped = _context.AssociationDesignations.Where(e => e.AssociationId == id);
+                _context.AssociationDesignations.RemoveRange(designationsMapped);
                 _context.Associations.Remove(Association);
                 await _context.SaveChangesAsync();
             }
