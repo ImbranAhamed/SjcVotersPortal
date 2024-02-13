@@ -1,8 +1,9 @@
 @page
+@using Humanizer
 @model SjcVotersPortal.Pages.Associations.IndexModel
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Index";    
 }
 
 <h1>Index</h1>
@@ -14,17 +15,21 @@
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Association[0].Name)
+                @Html.DisplayNameFor(model => model.Associations[0].Name)
+            </th>
+            <th>
+                Mapped Designations
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Association) {
+@foreach (var item in Model.Associations) {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Name)
             </td>
+            <td>@Model.MappedDesignations[item.Id].Humanize()</td>
             <td>
                 <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
