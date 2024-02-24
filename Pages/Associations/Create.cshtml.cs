@@ -22,11 +22,9 @@ namespace SjcVotersPortal.Pages.Associations
             _context = context;
         }
         public List<SelectListItem> Designations { get; set; }
-        public List<SelectListItem> Designations { get; set; }
 
         public IActionResult OnGet()
         {
-            Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString())).ToList();
             Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString())).ToList();
             return Page();
         }
