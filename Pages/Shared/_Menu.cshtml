@@ -20,4 +20,10 @@
             <a class="nav-link text-dark" asp-area="" asp-page="/Students/Index">Students</a>
         </li>
     }
+    @if (User.IsInRole(NamedConstants.RoleNames.Student))
+    {
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="" asp-page="/Students/StudentProfile">Profile</a>
+        </li>
+    }
 </ul>

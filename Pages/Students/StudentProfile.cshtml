@@ -1,0 +1,37 @@
+﻿@page
+@model StudentProfile
+
+@{
+    ViewData["Title"] = "Profile";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <tr>
+        <td>@Html.DisplayNameFor(m => m.Student.RollNumber)</td>
+        <td>@Model.Student.RollNumber</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(m => m.Student.Name)</td>
+        <td>@Model.Student.Name</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(m => m.Student.Batch)</td>
+        <td>@Model.Student.Batch</td>
+    </tr>
+    <tr>
+        <td>@Html.DisplayNameFor(m => m.Student.CourseId)</td>
+        <td>@Model.Student.CourseId</td>
+    </tr>
+</table>
+<div>
+        @if (Model.Student.IdCarFileMime == "application/pdf")
+        {
+            <embed src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)" alt="ID Card" class="ratio ratio-16x9"/>
+        }
+        else
+        {
+            <img src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)" alt="ID Card" class="ratio ratio-16x9"/>
+        }
+</div>

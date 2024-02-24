@@ -6,6 +6,7 @@ public class Student
     [Required]
     [MaxLength(10)]
 
+    [Display(Name = "Roll Number")]
     public string RollNumber { get; set; }
 
     [Required]

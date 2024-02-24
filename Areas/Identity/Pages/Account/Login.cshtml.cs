@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using Microsoft.IdentityModel.Tokens;
 using SjcVotersPortal.Data;
 
 
@@ -133,6 +134,10 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
+                    if (returnUrl.IsNullOrEmpty())
+                    {
+                        return RedirectToPage("../../StudentProfile");
+                    }
                     return LocalRedirect(returnUrl);
                 }
                 if (result.RequiresTwoFactor)
