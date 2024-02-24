@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Authorization;
 using System.Diagnostics;
+using SjcVotersPortal.Data;
 
 
 namespace SjcVotersPortal.Areas.Identity.Pages.Account
@@ -25,11 +26,13 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly ApplicationDbContext _context;
 
-        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<IdentityUser> signInManager, ILogger<LoginModel> logger, ApplicationDbContext context)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _context = context;
         }
 
         /// <summary>
@@ -113,6 +116,15 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
 
             if (ModelState.IsValid)
             {
+                var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
+                var isInStudentRole =  await _signInManager.UserManager.IsInRoleAsync(user, NamedConstants.RoleNames.Student);
+                if (isInStudentRole)
+                {
+                    if (_context.Students.Single(e => e.EmailId == Input.Email).IsApproved == false)
+                    {
+                        return RedirectToPage("./StudentRegistrationNotApproved");
+                    }
+                }
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
                 var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
