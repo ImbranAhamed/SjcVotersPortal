@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SjcVotersPortal.Data;
 
@@ -18,5 +19,27 @@ public class Index : SiteadminBasePageModel
     public async Task OnGet()
     {
         Students = await _context.Students.ToListAsync();
+    }
+
+    public async Task<IActionResult> OnPostAsync(string? rollNumber, bool isApproved, string rejectionReason)
+    {
+        if (rollNumber == null)
+        {
+            return NotFound();
+        }
+        var student = await _context.Students.FirstOrDefaultAsync(e => e.RollNumber == rollNumber);
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        student.IsApproved = isApproved;
+        if (isApproved == false)
+        {
+            student.RejectionReason = rejectionReason;
+        }
+        await _context.SaveChangesAsync();
+
+        return RedirectToPage();
     }
 }

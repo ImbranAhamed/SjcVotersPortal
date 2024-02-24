@@ -6,8 +6,9 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account;
 [AllowAnonymous]
 public class StudentRegistrationNotApproved : PageModel
 {
-    public void OnGet()
+    public bool? IsApproved { get; set; }
+    public void OnGet(bool? isApproved)
     {
-        
+        IsApproved = isApproved;
     }
 }

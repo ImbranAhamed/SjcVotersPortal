@@ -7,4 +7,12 @@
 
 <h1>@ViewData["Title"]</h1>
 
-Your registration is not approved by Site Admin. Once approved you will be notified by email.
+@switch (Model.IsApproved)
+{
+    case null:
+        <span>Your registration is not yet approved by Site Admin. Once approved you will be notified by email.</span>
+        break;
+    case false:
+        <span>Your registration has been rejected by Site Admin. Please contact office for any help.</span>
+        break;
+}

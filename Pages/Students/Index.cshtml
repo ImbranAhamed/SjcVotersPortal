@@ -2,9 +2,11 @@
 @model SjcVotersPortal.Pages.Students.Index
 
 @{
+    
     ViewData["Title"] = "Register confirmation";
-    var unapprovedStudents = Model.Students.Where(e => e.IsApproved == false).ToArray();
-    var approvedStudents = Model.Students.Where(e => e.IsApproved).ToArray();
+    var registeredStudents = Model.Students.Where(e => e.IsApproved == null).ToArray();
+    var approvedStudents = Model.Students.Where(e => e.IsApproved == true).ToArray();
+    var rejectedStudents = Model.Students.Where(e => e.IsApproved == false).ToArray();
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -12,16 +14,19 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="studentTab" role="tablist">
     <li class="nav-item" role="presentation">
-        <button class="nav-link active" id="notApprovedStudents-tab" data-bs-toggle="tab" data-bs-target="#notApprovedStudents" type="button" role="tab" aria-controls="notApprovedStudents" aria-selected="true">Unapproved Students</button>
+            <button class="nav-link active" id="registeredStudents-tab" data-bs-toggle="tab" data-bs-target="#registeredStudents" type="button" role="tab" aria-controls="registeredStudents" aria-selected="true">Registered Students</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="approvedStudents-tab" data-bs-toggle="tab" data-bs-target="#approvedStudents" type="button" role="tab" aria-controls="approvedStudents" aria-selected="false">Approved Students</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="rejectedStudents-tab" data-bs-toggle="tab" data-bs-target="#rejectedStudents" type="button" role="tab" aria-controls="rejectedStudents" aria-selected="false">Rejected Students</button>
     </li>
 </ul>
 
 <!-- Tab panes -->
 <div class="tab-content">
-    <div class="tab-pane active" id="notApprovedStudents" role="tabpanel" aria-labelledby="notApprovedStudents-tab" tabindex="0">
+    <div class="tab-pane active" id="registeredStudents" role="tabpanel" aria-labelledby="registeredStudents-tab" tabindex="0">
         <table class="table mt-2">
             <thead>
             <tr>
@@ -29,13 +34,13 @@
                 <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
                 <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
                 <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
-                <th></th>
+                <th colspan="3"></th>
             </tr>
             </thead>
             <tbody>
-            @if (unapprovedStudents.Any())
+            @if (registeredStudents.Any())
             {
-                @foreach (var item in unapprovedStudents)
+                @foreach (var item in registeredStudents)
                 {
                     <tr>
                         <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
@@ -43,7 +48,7 @@
                         <td>@Html.DisplayFor(modelItem => item.Batch)</td>
                         <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
                         <td>
-                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#idCardModal-@item.RollNumber">
+                            <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#idCardModal-@item.RollNumber">
                                 View Id Card
                             </button>
 
@@ -74,19 +79,42 @@
                             </div>
 
                         </td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name ="rollNumber"  value="@item.RollNumber" />
+                                <input type="hidden" name ="IsApproved"  value="true" />
+                                <input type="hidden" name ="rejectionReason"  value="" />
+                                <input type="submit" value="Approve" class="btn btn-success btn-sm" />
+                            </form>
+                        </td>
+                        <td>
+                            <form method="post">
+                                <input type="hidden" name ="rollNumber"  value="@item.RollNumber" />
+                                <input type="hidden" name ="IsApproved"  value="false" />
+                                <div class="row">
+                                    <div class="col-8">
+                                        <input type="text" name ="rejectionReason"  value="" class="form-control" size="10" required />
+                                    </div>
+                                    <div class="col-4">
+                                        <input type="submit" value="Reject" class="btn btn-danger btn-sm" />
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                        
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td>No records found</td>
+                    <td colspan="4">No records found</td>
                 </tr>
             }
             </tbody>
         </table>
     </div>
-    <div class="tab-pane" id="approvedStudents" role="tabpanel" aria-labelledby="approvedStudents-tab" tabindex="0">
+    <div class="tab-pane" id="approvedStudents" role="tabpanel" aria-labelledby="approvedStudents-tab" tabindex="1">
         <table class="table mt-2">
             <thead>
             <tr>
@@ -94,7 +122,6 @@
                 <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
                 <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
                 <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
-                <th></th>
             </tr>
             </thead>
             <tbody>
@@ -107,22 +134,50 @@
                         <td>@Html.DisplayFor(modelItem => item.Name)</td>
                         <td>@Html.DisplayFor(modelItem => item.Batch)</td>
                         <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
-                        <td>
-                            <a asp-page="./Edit" asp-route-id="@item.RollNumber">Edit</a> |
-                            <a asp-page="./Details" asp-route-id="@item.RollNumber">Details</a> |
-                            <a asp-page="./Delete" asp-route-id="@item.RollNumber">Delete</a>
-                        </td>
-
                     </tr>
                 }
             }
             else
             {
                 <tr>
-                    <td>No records found</td>
+                    <td colspan="4">No records found</td>
                 </tr>
             }
             </tbody>
         </table>
     </div>
+    <div class="tab-pane" id="rejectedStudents" role="tabpanel" aria-labelledby="rejectedStudents-tab" tabindex="2">
+            <table class="table mt-2">
+                <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(model => model.Students.First().RollNumber)</th>
+                    <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
+                    <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
+                    <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
+                    <th>@Html.DisplayNameFor(model => model.Students.First().RejectionReason)</th>
+                </tr>
+                </thead>
+                <tbody>
+                @if (rejectedStudents.Any())
+                {
+                    foreach (var item in rejectedStudents)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                            <td>@Html.DisplayFor(modelItem => item.Batch)</td>
+                            <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                            <td>@Html.DisplayFor(modelItem => item.RejectionReason)</td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr>
+                        <td colspan="5">No records found</td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
 </div>

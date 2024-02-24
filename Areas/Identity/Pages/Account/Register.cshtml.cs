@@ -137,7 +137,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
-
+                var transaction = await _context.Database.BeginTransactionAsync();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
                 await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
@@ -148,7 +148,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
 
                     await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);
                     using var ms = new MemoryStream();
-                    Input.File.CopyTo(ms);
+                    await Input.File.CopyToAsync(ms);
                     _context.Students.Add(new Student()
                     {
                         RollNumber = Input.RollNumber,
@@ -158,10 +158,11 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                         IdCardFile = ms.ToArray(),
                         IdCarFileMime = Input.File.ContentType,
                         EmailId = Input.Email,
-                        IsApproved = false                  
+                        IsApproved = null,
+                        RejectionReason = string.Empty,
                     });
                     await _context.SaveChangesAsync();
-
+                    await transaction.CommitAsync();
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
