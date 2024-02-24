@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Data;
 
@@ -12,5 +13,6 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Designation> Designations { get; set; }
     public DbSet<AssociationDesignation> AssociationDesignations { get; set; }
     public DbSet<Student> Students { get; set; }
+    public DbSet<Election> Elections { get; set; }
     public DbSet<StudentAssociation> StudentAssociations { get; set; }
 }

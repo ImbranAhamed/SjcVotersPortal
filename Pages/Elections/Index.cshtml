@@ -1,0 +1,60 @@
+@page
+@model SjcVotersPortal.Pages_Elections.IndexModel
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-page="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Election[0].NominationStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Election[0].NominationEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Election[0].VotingStart)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Election[0].VotingEnd)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Election[0].Association)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Election) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominationStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NominationEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VotingStart)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VotingEnd)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Association.Name)
+            </td>
+            <td>
+                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

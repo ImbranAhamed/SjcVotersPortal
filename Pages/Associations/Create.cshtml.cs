@@ -28,9 +28,7 @@ namespace SjcVotersPortal.Pages.Associations
             Designations = _context.Designations.Select(e => new SelectListItem(e.Name, e.Id.ToString())).ToList();
             return Page();
         }
-
-
-
+        
         [BindProperty]
         public Association Association { get; set; } = default!;
 
