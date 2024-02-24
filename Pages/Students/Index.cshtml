@@ -1,0 +1,128 @@
+﻿@page
+@model SjcVotersPortal.Pages.Students.Index
+
+@{
+    ViewData["Title"] = "Register confirmation";
+    var unapprovedStudents = Model.Students.Where(e => e.IsApproved == false).ToArray();
+    var approvedStudents = Model.Students.Where(e => e.IsApproved).ToArray();
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<!-- Nav tabs -->
+<ul class="nav nav-tabs" id="studentTab" role="tablist">
+    <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="notApprovedStudents-tab" data-bs-toggle="tab" data-bs-target="#notApprovedStudents" type="button" role="tab" aria-controls="notApprovedStudents" aria-selected="true">Unapproved Students</button>
+    </li>
+    <li class="nav-item" role="presentation">
+        <button class="nav-link" id="approvedStudents-tab" data-bs-toggle="tab" data-bs-target="#approvedStudents" type="button" role="tab" aria-controls="approvedStudents" aria-selected="false">Approved Students</button>
+    </li>
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane active" id="notApprovedStudents" role="tabpanel" aria-labelledby="notApprovedStudents-tab" tabindex="0">
+        <table class="table mt-2">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Students.First().RollNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (unapprovedStudents.Any())
+            {
+                @foreach (var item in unapprovedStudents)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Batch)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                        <td>
+                            <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#idCardModal-@item.RollNumber">
+                                View Id Card
+                            </button>
+
+                            <div class="modal fade" id="idCardModal-@item.RollNumber" tabindex="-1" aria-labelledby="idCardModalLabel-@item.RollNumber" aria-hidden="true">
+                                <div class="modal-dialog modal-fullscreen">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h1 class="modal-title fs-5" id="idCardModalLabel-@item.RollNumber">ID Card of @item.RollNumber</h1>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <div class="ratio ratio-16x9">
+                                                @if (item.IdCarFileMime == "application/pdf")
+                                                {
+                                                    <embed src="data:@item.IdCarFileMime;base64, @Convert.ToBase64String(item.IdCardFile)" alt="ID Card"/>
+                                                }
+                                                else
+                                                {
+                                                    <img src="data:@item.IdCarFileMime;base64, @Convert.ToBase64String(item.IdCardFile)" alt="ID Card"/>
+                                                }
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>No records found</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+    <div class="tab-pane" id="approvedStudents" role="tabpanel" aria-labelledby="approvedStudents-tab" tabindex="0">
+        <table class="table mt-2">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Students.First().RollNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (approvedStudents.Any())
+            {
+                foreach (var item in approvedStudents)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Batch)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                        <td>
+                            <a asp-page="./Edit" asp-route-id="@item.RollNumber">Edit</a> |
+                            <a asp-page="./Details" asp-route-id="@item.RollNumber">Details</a> |
+                            <a asp-page="./Delete" asp-route-id="@item.RollNumber">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            }
+            else
+            {
+                <tr>
+                    <td>No records found</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
+</div>
