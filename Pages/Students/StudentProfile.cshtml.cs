@@ -4,8 +4,8 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Students;
 
-[Authorize(Roles = NamedConstants.RoleNames.Student)]
-public class StudentProfile : PageModel
+
+public class StudentProfile : StudentBasePageModel
 {
     private readonly ApplicationDbContext _context;
     public Student Student { get; set; }

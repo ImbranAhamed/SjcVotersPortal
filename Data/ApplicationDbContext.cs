@@ -12,4 +12,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Designation> Designations { get; set; }
     public DbSet<AssociationDesignation> AssociationDesignations { get; set; }
     public DbSet<Student> Students { get; set; }
+    public DbSet<StudentAssociation> StudentAssociations { get; set; }
 }
