@@ -10,14 +10,17 @@ using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
+using Humanizer;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Areas.Identity.Pages.Account
 {
@@ -30,13 +33,15 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
         private readonly IUserEmailStore<IdentityUser> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
+        private readonly ApplicationDbContext _context;
 
         public RegisterModel(
             UserManager<IdentityUser> userManager,
             IUserStore<IdentityUser> userStore,
             SignInManager<IdentityUser> signInManager,
             ILogger<RegisterModel> logger,
-            IEmailSender emailSender)
+            IEmailSender emailSender,
+            ApplicationDbContext context)
         {
             _userManager = userManager;
             _userStore = userStore;
@@ -44,6 +49,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             _signInManager = signInManager;
             _logger = logger;
             _emailSender = emailSender;
+            _context = context;
         }
 
         /// <summary>
@@ -52,6 +58,8 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
         /// </summary>
         [BindProperty]
         public InputModel Input { get; set; }
+
+        public List<SelectListItem> Courses { get; set; } = [new SelectListItem("BSC CS", "BSC-CS"), new SelectListItem("BCA", "BC")];
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
@@ -98,6 +106,21 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            public string RollNumber { get; set; }    
+            
+            [Required]
+            public string Name { get; set; }
+
+            [Required]
+            [RegularExpression("[0-9]{4}-[0-9]{2}")]
+            public string Batch { get; set; }
+
+            [Required]
+            public string CourseId { get; set; }
+
+            public IFormFile File { get; set; }
         }
 
 
@@ -122,6 +145,22 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User created a new account with password.");
+
+                    await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);
+                    using var ms = new MemoryStream();
+                    Input.File.CopyTo(ms);
+                    _context.Students.Add(new Student()
+                    {
+                        RollNumber = Input.RollNumber,
+                        Name = Input.Name,
+                        CourseId = Input.CourseId,
+                        Batch = Input.Batch,
+                        IdCardFile = ms.ToArray(),
+                        IdCarFileMime = Input.File.ContentType,
+                        EmailId = Input.Email,
+                        IsApproved = false                  
+                    });
+                    await _context.SaveChangesAsync();
 
                     var userId = await _userManager.GetUserIdAsync(user);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
