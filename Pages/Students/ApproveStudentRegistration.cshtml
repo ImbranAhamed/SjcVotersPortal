@@ -1,5 +1,5 @@
 ﻿@page
-@model SjcVotersPortal.Pages.Students.Index
+@model SjcVotersPortal.Pages.Students.ApproveStudentRegistration
 
 @{
     
@@ -93,7 +93,7 @@
                                 <input type="hidden" name ="IsApproved"  value="false" />
                                 <div class="row">
                                     <div class="col-8">
-                                        <input type="text" name ="rejectionReason"  value="" class="form-control" size="10" required />
+                                        <input type="text" name ="rejectionReason"  value="" class="form-control" size="10" placeholder="Reason for rejection" required />
                                     </div>
                                     <div class="col-4">
                                         <input type="submit" value="Reject" class="btn btn-danger btn-sm" />

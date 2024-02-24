@@ -5,11 +5,11 @@ using SjcVotersPortal.Data;
 
 namespace SjcVotersPortal.Pages.Students;
 
-public class Index : SiteadminBasePageModel
+public class ApproveStudentRegistration : SiteadminBasePageModel
 {
     private readonly ApplicationDbContext _context;
 
-    public Index(ApplicationDbContext context)
+    public ApproveStudentRegistration(ApplicationDbContext context)
     {
         _context = context;
     }
