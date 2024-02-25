@@ -1,0 +1,52 @@
+﻿@page
+@model SjcVotersPortal.Pages.ViewNominations
+
+@{
+    ViewData["Title"] = "View Nominations";
+    var isFirst = true;
+}
+<h1>@ViewData["Title"]</h1>
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    @foreach (var item in Model.Data)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)-tab" data-bs-toggle="tab" data-bs-target="#@(item.Key.ElectionId)" type="button" role="tab" aria-controls="@(item.Key.ElectionId)" aria-selected="@(isFirst ? "true" : "")">@(item.Key.AssociationName)</button>
+        </li>
+        isFirst = false;
+    }
+</ul>
+
+<div class="tab-content">
+    @foreach (var item in Model.Data)
+    {
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <table class="table table-bordered mt-2">
+                <thead>
+                <tr>
+                    <th>Designation</th>
+                    <th>Students</th>
+                </tr>
+                </thead>
+                @foreach (var item2 in item.Value)
+                {
+                    <tr>
+                        <td>@item2.Key.DesignantionName</td>
+                        <td>
+                            <ul class="list-group">
+
+                                @foreach (var item3 in item2.Value)
+                                {
+                                    <li class="list-group-item">
+                                        @item3.RollNumber, @item3.Name, @item3.Batch
+                                    </li>
+                                }
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
