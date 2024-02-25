@@ -13,8 +13,10 @@ public class EmailSender : IEmailSender
         mailMessage.IsBodyHtml = true;
             
         var smtp = new SmtpClient();
-        smtp.Host = "localhost";
-        smtp.Port = 25;
+        smtp.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
+        smtp.PickupDirectoryLocation = "F:\\Delete\\";
+        /*smtp.Host = "localhost";
+        smtp.Port = 25;*/
             
         smtp.Send(mailMessage);
         
