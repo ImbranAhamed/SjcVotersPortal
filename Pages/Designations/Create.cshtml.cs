@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Pages.Designations
 {

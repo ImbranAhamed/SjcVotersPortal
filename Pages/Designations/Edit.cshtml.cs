@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Pages.Designations
 {

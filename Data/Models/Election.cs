@@ -8,6 +8,6 @@ public class Election
     public DateTime NominationEnd { get; set; }
     public DateTime VotingStart { get; set; }
     public DateTime VotingEnd { get; set; }
-    
     public Association Association { get; set; }
+    
 }

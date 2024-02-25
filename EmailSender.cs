@@ -1,7 +1,7 @@
 ﻿using System.Net.Mail;
 using Microsoft.AspNetCore.Identity.UI.Services;
 
-namespace SjcVotersPortal.Data.Models;
+namespace SjcVotersPortal;
 
 public class EmailSender : IEmailSender
 {

@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace SjcVotersPortal.Data.Models;
+
 public class StudentAssociation
 {
     public int Id { get; set; }

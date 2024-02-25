@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Pages.Students;
 

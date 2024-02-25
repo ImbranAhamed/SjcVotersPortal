@@ -121,7 +121,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                 var isInStudentRole =  await _signInManager.UserManager.IsInRoleAsync(user, NamedConstants.RoleNames.Student);
                 if (isInStudentRole)
                 {
-                    var student = _context.Students.Single(e => e.EmailId == Input.Email);
+                    var student = _context.Students.Single(e => e.EmailId.ToLower() == Input.Email.ToLower());
                     if (student.IsApproved is null or false)
                     {
                         return RedirectToPage("./StudentRegistrationNotApproved", new {student.IsApproved});

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
-using System.Reflection.Metadata.Ecma335;
+
+namespace SjcVotersPortal.Data.Models;
 
 public class Student
 {

@@ -15,4 +15,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Student> Students { get; set; }
     public DbSet<Election> Elections { get; set; }
     public DbSet<StudentAssociation> StudentAssociations { get; set; }
+    public DbSet<Nomimation> Nominations { get; set; }
 }

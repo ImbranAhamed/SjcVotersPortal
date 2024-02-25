@@ -50,7 +50,7 @@ namespace SjcVotersPortal.Pages_Elections
             }
 
             var now = DateTime.Now;
-            var isAnotherElectionAvailable = _context.Elections.Any(e => e.AssociationId == Election.AssociationId && e.VotingEnd > now);
+            var isAnotherElectionAvailable = _context.Elections.Any(e => e.AssociationId == Election.AssociationId && e.VotingEnd > DateTime.Now);
             if (isAnotherElectionAvailable)
             {
                 ModelState.AddModelError(nameof(Election.AssociationId), $"Another election is in progress");

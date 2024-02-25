@@ -4,6 +4,7 @@ using SjcVotersPortal.Data;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using SjcVotersPortal;
 using SjcVotersPortal.Data.Models;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,3 +1,5 @@
+namespace SjcVotersPortal.Data.Models;
+
 public class AssociationDesignation
 {
     public int Id { get; set; }

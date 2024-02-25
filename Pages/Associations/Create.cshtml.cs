@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Pages.Associations
 {

@@ -1,0 +1,34 @@
+﻿@page
+@model SjcVotersPortal.Pages.Associations.MembershipSummaryModel
+@{
+    ViewData["Title"] = "Student Association Membership summary";
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.Summary.First().AssociationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.Summary.First().Count)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model.Summary)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(m => item.AssociationName)
+
+                </td>
+                <td>
+                    @Html.DisplayFor(m => item.Count)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

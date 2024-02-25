@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using SjcVotersPortal.Data;
+using SjcVotersPortal.Data.Models;
 
 namespace SjcVotersPortal.Pages.Students;
 
