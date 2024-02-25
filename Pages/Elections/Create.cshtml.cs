@@ -85,7 +85,8 @@ namespace SjcVotersPortal.Pages_Elections
                 NominationStart = Election.NominationStart,
                 NominationEnd = Election.NominationEnd,
                 VotingStart = Election.VotingStart,
-                VotingEnd = Election.VotingEnd
+                VotingEnd = Election.VotingEnd,
+                Timestamp = DateTime.Now
             });
             await _context.SaveChangesAsync();
 

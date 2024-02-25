@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SjcVotersPortal.Data;
 
@@ -10,9 +11,11 @@ using SjcVotersPortal.Data;
 namespace SjcVotersPortal.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240225094916_TimestampAddedInElectionAndNomination")]
+    partial class TimestampAddedInElectionAndNomination
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.1");
@@ -279,8 +282,8 @@ namespace SjcVotersPortal.Data.Migrations
                     b.Property<DateTime>("NominationStart")
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("TEXT");
+                    b.Property<int>("Timestamp")
+                        .HasColumnType("INTEGER");
 
                     b.Property<DateTime>("VotingEnd")
                         .HasColumnType("TEXT");

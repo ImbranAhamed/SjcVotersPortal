@@ -17,4 +17,6 @@ public class Nomimation
     
     [ForeignKey(nameof(RollNumber))]
     public Student Student { get; set; }
+    
+    public DateTime Timestamp { get; set; } 
 }

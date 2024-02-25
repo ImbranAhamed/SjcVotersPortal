@@ -40,15 +40,26 @@
                             <tr>
                                 <td>@d.Name</td>
                                 <td>
-                                    <input name="designationId" type="radio" value="@d.Id"/>
+                                    <div class="form-check form-switch">
+                                        <input class="form-check-input" role="switch" name="designationId" type="radio" value="@d.Id" @(Model.CurrentNominationDict[item.Key.ElectionId] == d.Id ? "checked" : "")/>
+                                    </div>
                                 </td>
                             </tr>
                         }
                         </tbody>
                     </table>
-                    <div class="mt-3 text-center">
-                        <input type="submit" value="Nominate" class="btn btn-primary"/>
-                    </div>
+                    @if (item.Key.IsNominationOpen)
+                    {
+                        <div class="mt-3 text-center">
+                            <input type="submit" value="Nominate" class="btn btn-primary"/>
+                            <input type="submit" value="Withdraw" class="btn btn-danger" form="withdraw"/>
+                        </div>
+                    }
+                </form>
+
+                <form method="post" id="withdraw">
+                    <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
+                    <input name="designationId" type="hidden" value="0"/>
                 </form>
             </div>
         </div>
