@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Humanizer;
+using IronBarCode;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -140,10 +141,18 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError("Input.RollNumber", "Already there exists a registration for this roll number. Contact office for help.");
             }
+            using var ms = new MemoryStream();
+            await Input.File.CopyToAsync(ms);
+            
+            var resultFromFile = await BarcodeReader.ReadAsync(ms);
+            var rollNumberMatches = resultFromFile.Values().Any(e => e.ToLower() == "*" + Input.RollNumber.ToLower() + "*");
+            if (rollNumberMatches == false)
+            {
+                ModelState.AddModelError("Input.RollNumber", "Roll number does not match on one available in ID card uploaded.");
+            }
             
             if (ModelState.IsValid)
             {
-                
                 var user = CreateUser();
                 var transaction = await _context.Database.BeginTransactionAsync();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -155,8 +164,6 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                     _logger.LogInformation("User created a new account with password.");
 
                     await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);
-                    using var ms = new MemoryStream();
-                    await Input.File.CopyToAsync(ms);
                     _context.Students.Add(new Student()
                     {
                         RollNumber = Input.RollNumber,
@@ -166,7 +173,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                         IdCardFile = ms.ToArray(),
                         IdCarFileMime = Input.File.ContentType,
                         EmailId = Input.Email,
-                        IsApproved = null,
+                        IsApproved = true,
                         RejectionReason = string.Empty,
                     });
                     await _context.SaveChangesAsync();
