@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.AspNetCore.WebUtilities;
@@ -135,8 +136,14 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
         {
             returnUrl ??= Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+            if (ModelState.IsValid && _context.Students.Any(e => e.RollNumber == Input.RollNumber))
+            {
+                ModelState.AddModelError("Input.RollNumber", "Already there exists a registration for this roll number. Contact office for help.");
+            }
+            
             if (ModelState.IsValid)
             {
+                
                 var user = CreateUser();
                 var transaction = await _context.Database.BeginTransactionAsync();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);

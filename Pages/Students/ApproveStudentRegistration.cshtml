@@ -2,7 +2,6 @@
 @model SjcVotersPortal.Pages.Students.ApproveStudentRegistration
 
 @{
-    
     ViewData["Title"] = "Register confirmation";
     var registeredStudents = Model.Students.Where(e => e.IsApproved == null).ToArray();
     var approvedStudents = Model.Students.Where(e => e.IsApproved == true).ToArray();
@@ -14,7 +13,7 @@
 <!-- Nav tabs -->
 <ul class="nav nav-tabs" id="studentTab" role="tablist">
     <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="registeredStudents-tab" data-bs-toggle="tab" data-bs-target="#registeredStudents" type="button" role="tab" aria-controls="registeredStudents" aria-selected="true">Registered Students</button>
+        <button class="nav-link active" id="registeredStudents-tab" data-bs-toggle="tab" data-bs-target="#registeredStudents" type="button" role="tab" aria-controls="registeredStudents" aria-selected="true">Registered Students</button>
     </li>
     <li class="nav-item" role="presentation">
         <button class="nav-link" id="approvedStudents-tab" data-bs-toggle="tab" data-bs-target="#approvedStudents" type="button" role="tab" aria-controls="approvedStudents" aria-selected="false">Approved Students</button>
@@ -81,27 +80,27 @@
                         </td>
                         <td>
                             <form method="post">
-                                <input type="hidden" name ="rollNumber"  value="@item.RollNumber" />
-                                <input type="hidden" name ="IsApproved"  value="true" />
-                                <input type="hidden" name ="rejectionReason"  value="" />
-                                <input type="submit" value="Approve" class="btn btn-success btn-sm" />
+                                <input type="hidden" name="rollNumber" value="@item.RollNumber"/>
+                                <input type="hidden" name="IsApproved" value="true"/>
+                                <input type="hidden" name="rejectionReason" value=""/>
+                                <input type="submit" value="Approve" class="btn btn-success btn-sm"/>
                             </form>
                         </td>
                         <td>
                             <form method="post">
-                                <input type="hidden" name ="rollNumber"  value="@item.RollNumber" />
-                                <input type="hidden" name ="IsApproved"  value="false" />
+                                <input type="hidden" name="rollNumber" value="@item.RollNumber"/>
+                                <input type="hidden" name="IsApproved" value="false"/>
                                 <div class="row">
                                     <div class="col-8">
-                                        <input type="text" name ="rejectionReason"  value="" class="form-control" size="10" placeholder="Reason for rejection" required />
+                                        <input type="text" name="rejectionReason" value="" class="form-control" size="10" placeholder="Reason for rejection" required/>
                                     </div>
                                     <div class="col-4">
-                                        <input type="submit" value="Reject" class="btn btn-danger btn-sm" />
+                                        <input type="submit" value="Reject" class="btn btn-danger btn-sm"/>
                                     </div>
                                 </div>
                             </form>
                         </td>
-                        
+
                     </tr>
                 }
             }
@@ -147,37 +146,44 @@
         </table>
     </div>
     <div class="tab-pane" id="rejectedStudents" role="tabpanel" aria-labelledby="rejectedStudents-tab" tabindex="2">
-            <table class="table mt-2">
-                <thead>
-                <tr>
-                    <th>@Html.DisplayNameFor(model => model.Students.First().RollNumber)</th>
-                    <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
-                    <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
-                    <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
-                    <th>@Html.DisplayNameFor(model => model.Students.First().RejectionReason)</th>
-                </tr>
-                </thead>
-                <tbody>
-                @if (rejectedStudents.Any())
-                {
-                    foreach (var item in rejectedStudents)
-                    {
-                        <tr>
-                            <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                            <td>@Html.DisplayFor(modelItem => item.Batch)</td>
-                            <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
-                            <td>@Html.DisplayFor(modelItem => item.RejectionReason)</td>
-                        </tr>
-                    }
-                }
-                else
+        <table class="table mt-2">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.Students.First().RollNumber)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Name)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().Batch)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().CourseId)</th>
+                <th>@Html.DisplayNameFor(model => model.Students.First().RejectionReason)</th>
+                <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            @if (rejectedStudents.Any())
+            {
+                foreach (var item in rejectedStudents)
                 {
                     <tr>
-                        <td colspan="5">No records found</td>
+                        <td>@Html.DisplayFor(modelItem => item.RollNumber)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Batch)</td>
+                        <td>@Html.DisplayFor(modelItem => item.CourseId)</td>
+                        <td>@Html.DisplayFor(modelItem => item.RejectionReason)</td>
+                        <td>
+                            <form method="post" asp-page-handler="DeleteRejected">
+                                <input type="hidden" name="rollNumber" value="@item.RollNumber"/>
+                                <input type="submit" value="Delete" class="btn btn-danger btn-sm"/>
+                            </form>
+                        </td>
                     </tr>
                 }
-                </tbody>
-            </table>
-        </div>
+            }
+            else
+            {
+                <tr>
+                    <td colspan="5">No records found</td>
+                </tr>
+            }
+            </tbody>
+        </table>
+    </div>
 </div>

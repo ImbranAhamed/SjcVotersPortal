@@ -13,4 +13,6 @@ public class StudentAssociation
     
     [ForeignKey(nameof(RollNumber))]
     public Student Student { get; set; }
+
+    public DateTime TimeStamp { get; set; }
 }

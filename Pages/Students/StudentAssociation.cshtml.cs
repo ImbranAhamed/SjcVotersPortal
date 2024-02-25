@@ -55,7 +55,7 @@ public class StudentAssociation : StudentBasePageModel
         }
         else
         {
-            _context.StudentAssociations.Add(new global::SjcVotersPortal.Data.Models.StudentAssociation() { RollNumber = rollNumber, AssociationId = associationId });
+            _context.StudentAssociations.Add(new global::SjcVotersPortal.Data.Models.StudentAssociation() { RollNumber = rollNumber, AssociationId = associationId, TimeStamp = DateTime.Now});
         }
 
         await _context.SaveChangesAsync();

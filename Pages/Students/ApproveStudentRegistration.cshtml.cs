@@ -43,4 +43,25 @@ public class ApproveStudentRegistration : SiteadminBasePageModel
 
         return RedirectToPage();
     }
+
+    public async Task<IActionResult> OnPostDeleteRejected(string? rollNumber)
+    {
+        if (rollNumber == null)
+        {
+            return NotFound();
+        }
+        var student = await _context.Students.FirstOrDefaultAsync(e => e.RollNumber == rollNumber);
+        if (student == null)
+        {
+            return NotFound();
+        }
+
+        if (student.IsApproved == false)
+        {
+            _context.RemoveRange(student);
+            await _context.SaveChangesAsync();
+        }
+
+        return RedirectToPage();
+    }
 }
