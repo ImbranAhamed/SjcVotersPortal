@@ -1,0 +1,73 @@
+﻿@page
+@model SjcVotersPortal.Pages.Vote
+
+@{
+    ViewData["Title"] = "Vote";
+    var isFirst = true;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    @foreach (var item in Model.Data)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)-tab" data-bs-toggle="tab" data-bs-target="#@(item.Key.ElectionId)" type="button" role="tab" aria-controls="@(item.Key.ElectionId)" aria-selected="@(isFirst ? "true" : "")">@(item.Key.AssociationName)</button>
+        </li>
+        isFirst = false;
+    }
+</ul>
+
+<div class="tab-content">
+    @foreach (var item in Model.Data)
+    {
+        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+            <table class="table table-bordered mt-2">
+                <thead>
+                <tr>
+                    <th>Designation</th>
+                    <th>Candidates</th>
+                </tr>
+                </thead>
+                @foreach (var item2 in item.Value)
+                {
+                    <tr>
+                        <td>@item2.Key.DesignantionName</td>
+                        <td>
+                            <ul class="list-group">
+                                <form method="post">
+                                    <input type="hidden" name="ElectionId" value="@item.Key.ElectionId"/>
+                                    <input type="hidden" name="DesignationId" value="@item2.Key.DesignationId"/>
+                                    <div class="row">
+                                        <div class="col-11">
+                                            @foreach (var item3 in item2.Value)
+                                            {
+                                                <li class="list-group-item">
+                                                    <input class="form-check-input me-1" type="radio" name="RollNumber" value="@item3.RollNumber" id="n-@item3.RollNumber"/>
+                                                    <label class="form-check-label" for="n-@item3.RollNumber">@item3.RollNumber, @item3.Name, @item3.Batch</label>
+                                                </li>
+                                            }
+                                        </div>
+                                        <div class="col-1 align-middle">
+                                            @if (item2.Value.Any())
+                                            {
+                                                @if (Model.Votes.Any(e => e.Nomimation.ElectionId == item.Key.ElectionId && e.Nomimation.DesignationId == item2.Key.DesignationId))
+                                                {
+                                                    <input type="submit" value="Vote" class="btn btn-success btn-sm text-end" disabled/>
+                                                }
+                                                else
+                                                {
+                                                    <input type="submit" value="Vote" class="btn btn-success btn-sm text-end"/>
+                                                }
+                                            }
+                                        </div>
+                                    </div>
+                                </form>
+                            </ul>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    }
+</div>
