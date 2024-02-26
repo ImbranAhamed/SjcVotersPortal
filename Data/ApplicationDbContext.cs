@@ -16,4 +16,5 @@ public class ApplicationDbContext : IdentityDbContext
     public DbSet<Election> Elections { get; set; }
     public DbSet<StudentAssociation> StudentAssociations { get; set; }
     public DbSet<Nomimation> Nominations { get; set; }
+    public DbSet<Vote> Votes { get; set; }
 }
