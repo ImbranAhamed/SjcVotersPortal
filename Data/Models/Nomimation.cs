@@ -19,4 +19,6 @@ public class Nomimation
     public Student Student { get; set; }
     
     public DateTime Timestamp { get; set; } 
+    
+    public List<Vote> Votes { get; set; }
 }

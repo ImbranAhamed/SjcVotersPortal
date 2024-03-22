@@ -1,0 +1,69 @@
+﻿@page
+@model SjcVotersPortal.Pages.Counting
+
+@{
+    ViewData["Title"] = "Counting";
+    var isFirst = true;
+}
+
+<h1>@ViewData["Title"]</h1>
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    @foreach (var item in Model.Data)
+    {
+        <li class="nav-item" role="presentation">
+            <button class="nav-link @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)-tab" data-bs-toggle="tab" data-bs-target="#t@(item.Key.ElectionId)" type="button" role="tab" aria-controls="t@(item.Key.ElectionId)" aria-selected="@(isFirst ? "true" : "")">@(item.Key.AssociationName)</button>
+        </li>
+        isFirst = false;
+    }
+</ul>
+
+<div class="tab-content">
+    @{
+        isFirst = true;
+    }
+    @foreach (var item in Model.Data)
+    {
+        <div class="tab-pane @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)" role="tabpanel" aria-labelledby="t@(item.Key.ElectionId)-tab" tabindex="0">
+            <table class="table table-bordered mt-2">
+                <thead>
+                <tr>
+                    <th>Designation</th>
+                    <th>Vote Details</th>
+                </tr>
+                </thead>
+                @foreach (var item2 in item.Value)
+                {
+                    <tr>
+                        <td>@item2.Key.DesignantionName</td>
+                        <td>
+                            @if (item2.Value.Any())
+                            {
+                                <table class="table table-sm table-bordered">
+                                    <thead>
+                                    <tr>
+                                        <th>Candidate</th>
+                                        <th>Vote count</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    @foreach (var item3 in item2.Value)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @item3.RollNumber, @item3.Student.Name, @item3.Student.Batch
+                                            </td>
+                                            <td>@item3.Votes.Count</td>
+                                        </tr>
+                                    }
+                                    </tbody>
+                                </table>
+                            }
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+        isFirst = false;
+    }
+</div>
