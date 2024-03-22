@@ -10,20 +10,23 @@
 
 @if (Model.ElectionDesignationsDictionary.Any())
 {
-    @foreach (var item in Model.ElectionDesignationsDictionary)
-    {
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @foreach (var item in Model.ElectionDesignationsDictionary)
+        {
             <li class="nav-item" role="presentation">
                 <button class="nav-link @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId-tab" data-bs-toggle="tab" data-bs-target="#t-@item.Key.ElectionId" type="button" role="tab" aria-controls="t-@item.Key.ElectionId" aria-selected="@(isFirst ? "true" : "false")">@item.Key.AssociationName</button>
             </li>
-        </ul>
-        isFirst = false;
-    }
+            isFirst = false;
+        }
+    </ul>
 
-    @foreach (var item in Model.ElectionDesignationsDictionary)
-    {
-        <div class="tab-content mt-2">
-            <div class="tab-pane active" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
+    <div class="tab-content mt-2">
+        @{
+            isFirst = true;
+        }
+        @foreach (var item in Model.ElectionDesignationsDictionary)
+        {
+            <div class="tab-pane @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
                 <form method="post">
                     <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
                     <table class="table">
@@ -62,8 +65,9 @@
                     <input name="designationId" type="hidden" value="0"/>
                 </form>
             </div>
-        </div>
-    }
+            isFirst = false;
+        }
+    </div>
 }
 
 else
