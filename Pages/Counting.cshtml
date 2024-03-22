@@ -58,6 +58,10 @@
                                     }
                                     </tbody>
                                 </table>
+
+                                <div>
+                                    <canvas id="myChart-@item2.Key.DesignationId"></canvas>
+                                </div>
                             }
                         </td>
                     </tr>
@@ -67,3 +71,41 @@
         isFirst = false;
     }
 </div>
+
+@section Scripts
+{
+    <script src="~/lib/Chart.js/chart.umd.min.js"></script>
+    @*<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>*@
+
+    @foreach (var item in Model.Data)
+    {
+        @foreach (var item2 in item.Value)
+        {
+            @if (item2.Value.Any())
+            {
+                <script>
+                  const ctx = document.getElementById('myChart-@item2.Key.DesignationId');
+                
+                  new Chart(ctx, {
+                    type: 'bar',
+                    data: {                      
+                      labels: [ @Html.Raw(string.Join(",", item2.Value.Select(e => "'" + e.RollNumber + " " + e.Student.Name + " " + e.Student.Batch + "'"))) ],
+                      datasets: [{
+                        label: '# of Votes',
+                        data: [ @string.Join(",", item2.Value.Select(e => e.Votes.Count)) ],
+                        borderWidth: 1
+                      }]
+                    },
+                    options: {
+                      scales: {
+                        y: {
+                          beginAtZero: true
+                        }
+                      }
+                    }
+                  });
+                </script>
+            }
+        }
+    }
+}
