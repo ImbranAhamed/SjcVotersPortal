@@ -11,6 +11,7 @@ using System.Text.Encodings.Web;
 using System.Threading;
 using System.Threading.Tasks;
 using Humanizer;
+using IronBarCode;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -143,7 +144,6 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             
             if (ModelState.IsValid)
             {
-                
                 var user = CreateUser();
                 var transaction = await _context.Database.BeginTransactionAsync();
                 await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
@@ -154,9 +154,12 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                 {
                     _logger.LogInformation("User created a new account with password.");
 
-                    await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);
                     using var ms = new MemoryStream();
                     await Input.File.CopyToAsync(ms);
+                    
+                    var resultFromFile = await BarcodeReader.ReadAsync(ms);
+                    var rollNumberMatches = resultFromFile.Values().Any(e => e.Equals("*" + Input.RollNumber.ToLower() + "*", StringComparison.CurrentCultureIgnoreCase));
+                    await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);
                     _context.Students.Add(new Student()
                     {
                         RollNumber = Input.RollNumber,
@@ -166,7 +169,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                         IdCardFile = ms.ToArray(),
                         IdCarFileMime = Input.File.ContentType,
                         EmailId = Input.Email,
-                        IsApproved = null,
+                        IsApproved = rollNumberMatches,
                         RejectionReason = string.Empty,
                     });
                     await _context.SaveChangesAsync();
