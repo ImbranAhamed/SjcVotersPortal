@@ -2,8 +2,9 @@
 @model SjcVotersPortal.Pages.Students.Nomination
 
 @{
-    ViewData["Title"] = "Student Association";
+    ViewData["Title"] = "Nominations";
     var isFirst = true;
+    var isNoNominationAvailable = true;
 }
 
 <h1>@ViewData["Title"]</h1>
@@ -12,61 +13,70 @@
 {
     @foreach (var item in Model.ElectionDesignationsDictionary)
     {
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item" role="presentation">
-                <button class="nav-link @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId-tab" data-bs-toggle="tab" data-bs-target="#t-@item.Key.ElectionId" type="button" role="tab" aria-controls="t-@item.Key.ElectionId" aria-selected="@(isFirst ? "true" : "false")">@item.Key.AssociationName</button>
-            </li>
-        </ul>
-        isFirst = false;
+        if (item.Key.IsNominationOpen)
+        {
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId-tab" data-bs-toggle="tab" data-bs-target="#t-@item.Key.ElectionId" type="button" role="tab" aria-controls="t-@item.Key.ElectionId" aria-selected="@(isFirst ? "true" : "false")">@item.Key.AssociationName</button>
+                </li>
+            </ul>
+            isFirst = false;
+            isNoNominationAvailable = false;
+        }
     }
 
     @foreach (var item in Model.ElectionDesignationsDictionary)
     {
-        <div class="tab-content mt-2">
-            <div class="tab-pane active" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
-                <form method="post">
-                    <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
-                    <table class="table">
+        if (item.Key.IsNominationOpen)
+        {
+            <div class="tab-content mt-2">
+                <div class="tab-pane active" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
+                    <form method="post">
+                        <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
+                        <table class="table">
 
-                        <thead>
-                        <tr>
-                            <th>Designation</th>
-                            <th></th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        @foreach (var d in item.Value)
-                        {
+                            <thead>
                             <tr>
-                                <td>@d.Name</td>
-                                <td>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" role="switch" name="designationId" type="radio" value="@d.Id" @(Model.CurrentNominationDict[item.Key.ElectionId] == d.Id ? "checked" : "")/>
-                                    </div>
-                                </td>
+                                <th>Designation</th>
+                                <th></th>
                             </tr>
-                        }
-                        </tbody>
-                    </table>
-                    @if (item.Key.IsNominationOpen)
-                    {
-                        <div class="mt-3 text-center">
-                            <input type="submit" value="Nominate" class="btn btn-primary"/>
-                            <input type="submit" value="Withdraw" class="btn btn-danger" form="withdraw"/>
-                        </div>
-                    }
-                </form>
+                            </thead>
+                            <tbody>
+                            @foreach (var d in item.Value)
+                            {
+                                <tr>
+                                    <td>@d.Name</td>
+                                    <td>
+                                        <div class="form-check form-switch">
+                                            <input class="form-check-input" role="switch" name="designationId" type="radio" value="@d.Id" @(Model.CurrentNominationDict[item.Key.ElectionId] == d.Id ? "checked" : "")/>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                            </tbody>
+                        </table>
+                        
+                            <div class="mt-3 text-center">
+                                <input type="submit" value="Nominate" class="btn btn-primary"/>
+                                <input type="submit" value="Withdraw" class="btn btn-danger" form="withdraw"/>
+                            </div>                    
+                    </form>
 
-                <form method="post" id="withdraw">
-                    <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
-                    <input name="designationId" type="hidden" value="0"/>
-                </form>
+                    <form method="post" id="withdraw">
+                        <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
+                        <input name="designationId" type="hidden" value="0"/>
+                    </form>
+                </div>
             </div>
-        </div>
+        }
+    }
+    if(isNoNominationAvailable)
+    {
+        <p>No election open for nomination.</p>
     }
 }
 
 else
 {
-    <p> No active election</p>
+    <p>No active election</p>
 }

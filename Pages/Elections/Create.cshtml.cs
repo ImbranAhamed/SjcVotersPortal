@@ -34,7 +34,7 @@ namespace SjcVotersPortal.Pages_Elections
 
         public IActionResult OnGet()
         {
-        ViewData["AssociationId"] = new SelectList(_context.Associations, "Id", "Name");
+            ViewData["AssociationId"] = new SelectList(_context.Associations, "Id", "Name");
             return Page();
         }
 
@@ -55,22 +55,22 @@ namespace SjcVotersPortal.Pages_Elections
             {
                 ModelState.AddModelError(nameof(Election.AssociationId), $"Another election is in progress");
             }
-            
+
             if (Election.NominationStart <= now)
             {
                 ModelState.AddModelError(nameof(Election.NominationStart), $"Should be later than current time ({now})");
             }
-            
+
             if (Election.NominationEnd <= Election.NominationStart)
             {
                 ModelState.AddModelError(nameof(Election.NominationEnd), $"Should be later than {nameof(Election.NominationStart)} ({Election.NominationStart})");
             }
-            
+
             if (Election.VotingStart <= Election.NominationEnd)
             {
                 ModelState.AddModelError(nameof(Election.VotingStart), $"Should be later than {nameof(Election.NominationEnd)} ({Election.NominationEnd})");
             }
-            
+
             if (Election.VotingEnd <= Election.VotingStart)
             {
                 ModelState.AddModelError(nameof(Election.VotingEnd), $"Should be later than {nameof(Election.VotingStart)} ({Election.VotingStart})");

@@ -14,7 +14,7 @@ public class EmailSender : IEmailSender
             
         var smtp = new SmtpClient();
         smtp.DeliveryMethod = SmtpDeliveryMethod.SpecifiedPickupDirectory;
-        smtp.PickupDirectoryLocation = "F:\\Delete\\";
+        smtp.PickupDirectoryLocation = "/home/logan/FakeEmails";
         /*smtp.Host = "localhost";
         smtp.Port = 25;*/
             
