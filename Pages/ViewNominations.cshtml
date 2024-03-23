@@ -12,16 +12,19 @@
     @foreach (var item in Model.Data)
     {
         <li class="nav-item" role="presentation">
-            <button class="nav-link @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)-tab" data-bs-toggle="tab" data-bs-target="#@(item.Key.ElectionId)" type="button" role="tab" aria-controls="@(item.Key.ElectionId)" aria-selected="@(isFirst ? "true" : "")">@(item.Key.AssociationName)</button>
+            <button class="nav-link @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)-tab" data-bs-toggle="tab" data-bs-target="#t@(item.Key.ElectionId)" type="button" role="tab" aria-controls="t@(item.Key.ElectionId)" aria-selected="@(isFirst ? "true" : "")">@(item.Key.AssociationName)</button>
         </li>
         isFirst = false;
     }
 </ul>
 
 <div class="tab-content">
+    @{
+        isFirst = true;
+    }
     @foreach (var item in Model.Data)
     {
-        <div class="tab-pane active" id="home" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
+        <div class="tab-pane @(isFirst ? "active" : "")" id="t@(item.Key.ElectionId)" role="tabpanel" aria-labelledby="t@(item.Key.ElectionId)-tab" tabindex="0">
             <table class="table table-bordered mt-2">
                 <thead>
                 <tr>
@@ -48,5 +51,6 @@
                 }
             </table>
         </div>
+        isFirst = false;
     }
 </div>
