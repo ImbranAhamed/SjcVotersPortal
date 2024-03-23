@@ -49,8 +49,8 @@ namespace SjcVotersPortal.Pages_Elections
                 return Page();
             }
 
-            var now = DateTime.Now;
-            var isAnotherElectionAvailable = _context.Elections.Any(e => e.AssociationId == Election.AssociationId && e.VotingEnd > DateTime.Now);
+            var now = DateTimeHelper.Now;
+            var isAnotherElectionAvailable = _context.Elections.Any(e => e.AssociationId == Election.AssociationId && e.VotingEnd > DateTimeHelper.Now);
             if (isAnotherElectionAvailable)
             {
                 ModelState.AddModelError(nameof(Election.AssociationId), $"Another election is in progress");
@@ -86,7 +86,7 @@ namespace SjcVotersPortal.Pages_Elections
                 NominationEnd = Election.NominationEnd,
                 VotingStart = Election.VotingStart,
                 VotingEnd = Election.VotingEnd,
-                Timestamp = DateTime.Now
+                Timestamp = DateTimeHelper.Now
             });
             await _context.SaveChangesAsync();
 

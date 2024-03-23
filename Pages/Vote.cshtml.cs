@@ -20,7 +20,7 @@ public class Vote : PageModel
     
     public void OnGet()
     {
-        var now = DateTime.Now;
+        var now = DateTimeHelper.Now;
         var currentElections = _context.Elections.Include(e => e.Association).Where(e => now > e.NominationStart /*&& e.VotingEnd > now*/);
         Data = currentElections.ToDictionary(election => (election.Id, election.Association.Name),
             election => _context.AssociationDesignations.Where(associationDesignation => associationDesignation.AssociationId == election.AssociationId)
@@ -48,7 +48,7 @@ public class Vote : PageModel
         {
             var currentStudent = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower());
             var nomination = await _context.Nominations.SingleAsync(e => e.ElectionId == electionId && e.DesignationId == designationId && e.RollNumber == rollNumber);
-            _context.Votes.Add(new Data.Models.Vote() { Nomimation = nomination, Student = currentStudent, Timestamp = DateTime.Now });
+            _context.Votes.Add(new Data.Models.Vote() { Nomimation = nomination, Student = currentStudent, Timestamp = DateTimeHelper.Now });
             await _context.SaveChangesAsync();
         }
 

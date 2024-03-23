@@ -19,7 +19,7 @@ public class Nomination : StudentBasePageModel
 
     public void OnGet()
     {
-        var now = DateTime.Now;
+        var now = DateTimeHelper.Now;
         var currentElections = _context.Elections.Include(e => e.Association);
         ElectionDesignationsDictionary = currentElections.ToDictionary(e => (e.Id, e.Association.Name, now > e.NominationStart && now < e.NominationEnd),
             e => _context.AssociationDesignations.Where(associationDesignation => associationDesignation.AssociationId == e.AssociationId)
@@ -37,7 +37,7 @@ public class Nomination : StudentBasePageModel
 
     public async Task<IActionResult> OnPostAsync(int electionId, int designationId)
     {
-        var now = DateTime.Now;
+        var now = DateTimeHelper.Now;
         var isNominationOpen = _context.Elections.Any(e => e.Id == electionId &&  now > e.NominationStart && now < e.NominationEnd);
         if (isNominationOpen == false)
         {

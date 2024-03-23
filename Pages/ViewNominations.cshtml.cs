@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using SjcVotersPortal.Data;
 using SjcVotersPortal.Data.Models;
 
@@ -18,7 +17,7 @@ public class ViewNominations : SiteadminBasePageModel
     
     public void OnGet()
     {
-        var now = DateTime.Now;
+        var now = DateTimeHelper.Now;
         var currentElections = _context.Elections.Include(e => e.Association).Where(e => now > e.NominationStart /*&& e.VotingEnd > now*/);
         Data = currentElections.ToDictionary(election => (election.Id, election.Association.Name),
             election => _context.AssociationDesignations.Where(associationDesignation => associationDesignation.AssociationId == election.AssociationId)
