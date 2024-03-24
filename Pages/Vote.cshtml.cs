@@ -43,15 +43,19 @@ public class Vote : PageModel
 
     public async Task<IActionResult> OnPostAsync(int electionId, int designationId, string rollNumber)
     {
-        var votes = _context.Votes.Where(e => e.Nomimation.ElectionId == electionId && e.Nomimation.DesignationId == designationId && e.Nomimation.RollNumber == rollNumber);
+        var currentStudent = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower());
+        var votes = _context.Votes.Where(e => e.Nomimation.ElectionId == electionId && e.Nomimation.DesignationId == designationId && e.RollNumber == currentStudent.RollNumber);
         if (votes.Any() == false)
         {
-            var currentStudent = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower());
             var nomination = await _context.Nominations.SingleAsync(e => e.ElectionId == electionId && e.DesignationId == designationId && e.RollNumber == rollNumber);
             _context.Votes.Add(new Data.Models.Vote() { Nomimation = nomination, Student = currentStudent, Timestamp = DateTimeHelper.Now });
             await _context.SaveChangesAsync();
+            TempData[NamedConstants.TempKeys.Success] = "Vote casted successfully.";
         }
-
+        else
+        {
+            TempData[NamedConstants.TempKeys.Failure] = "Vote already casted.";
+        }
         return RedirectToPage();
     }
 }

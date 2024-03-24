@@ -4,33 +4,36 @@
 @{
     ViewData["Title"] = "Nominations";
     var isFirst = true;
-    var isNoNominationAvailable = true;
+    var isNoNominationsAvailable = true;
 }
 
 <h1>@ViewData["Title"]</h1>
 
 @if (Model.ElectionDesignationsDictionary.Any())
 {
-    @foreach (var item in Model.ElectionDesignationsDictionary)
-    {
-        if (item.Key.IsNominationOpen)
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        @foreach (var item in Model.ElectionDesignationsDictionary)
         {
-            <ul class="nav nav-tabs" id="myTab" role="tablist">
+            if (item.Key.IsNominationOpen)
+            {
                 <li class="nav-item" role="presentation">
                     <button class="nav-link @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId-tab" data-bs-toggle="tab" data-bs-target="#t-@item.Key.ElectionId" type="button" role="tab" aria-controls="t-@item.Key.ElectionId" aria-selected="@(isFirst ? "true" : "false")">@item.Key.AssociationName</button>
                 </li>
-            </ul>
-            isFirst = false;
-            isNoNominationAvailable = false;
+                isFirst = false;
+                isNoNominationsAvailable = false;
+            }
         }
-    }
+    </ul>
 
-    @foreach (var item in Model.ElectionDesignationsDictionary)
-    {
-        if (item.Key.IsNominationOpen)
+    <div class="tab-content mt-2">
+        @{
+            isFirst = true;
+        }
+        @foreach (var item in Model.ElectionDesignationsDictionary)
         {
-            <div class="tab-content mt-2">
-                <div class="tab-pane active" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
+            if (item.Key.IsNominationOpen)
+            {
+                <div class="tab-pane @(isFirst ? "active" : "")" id="t-@item.Key.ElectionId" role="tabpanel" aria-labelledby="t-@item.Key.ElectionId-tab" tabindex="0">
                     <form method="post">
                         <input type="hidden" name="electionId" value="@item.Key.ElectionId"/>
                         <table class="table">
@@ -59,7 +62,8 @@
                             <div class="mt-3 text-center">
                                 <input type="submit" value="Nominate" class="btn btn-primary"/>
                                 <input type="submit" value="Withdraw" class="btn btn-danger" form="withdraw"/>
-                            </div>                    
+                            </div>
+                        
                     </form>
 
                     <form method="post" id="withdraw">
@@ -67,10 +71,11 @@
                         <input name="designationId" type="hidden" value="0"/>
                     </form>
                 </div>
-            </div>
+                isFirst = false;
+            }
         }
-    }
-    if(isNoNominationAvailable)
+    </div>
+    @if(isNoNominationsAvailable)
     {
         <p>No election open for nomination.</p>
     }
@@ -78,5 +83,5 @@
 
 else
 {
-    <p>No active election</p>
+    <p> No active election</p>
 }
