@@ -21,7 +21,7 @@ public class Vote : PageModel
     public void OnGet()
     {
         var now = DateTimeHelper.Now;
-        var currentElections = _context.Elections.Include(e => e.Association).Where(e => now > e.NominationStart /*&& e.VotingEnd > now*/);
+        var currentElections = _context.Elections.Include(e => e.Association).Where(e => now > e.VotingStart && now < e.VotingEnd);
         Data = currentElections.ToDictionary(election => (election.Id, election.Association.Name),
             election => _context.AssociationDesignations.Where(associationDesignation => associationDesignation.AssociationId == election.AssociationId)
                 .Select(associationDesignation => associationDesignation.Designation).ToDictionary(designation => (designation.Id, designation.Name),

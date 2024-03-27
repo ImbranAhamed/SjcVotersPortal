@@ -3,9 +3,9 @@
 
 @{
     ViewData["Title"] = "Register confirmation";
-    var registeredStudents = Model.Students.Where(e => e.IsApproved == null).ToArray();
+    var registeredStudents = Model.Students.Where(e => e.IsApproved == false).ToArray();
     var approvedStudents = Model.Students.Where(e => e.IsApproved == true).ToArray();
-    var rejectedStudents = Model.Students.Where(e => e.IsApproved == false).ToArray();
+    var rejectedStudents = Model.Students.Where(e => e.IsApproved == null).ToArray();
 }
 
 <h1>@ViewData["Title"]</h1>
