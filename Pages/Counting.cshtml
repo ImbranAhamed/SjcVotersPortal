@@ -59,7 +59,7 @@
                                     </tbody>
                                 </table>
 
-                                <div>
+                                <div style="max-height: 10em;">
                                     <canvas id="myChart-@item2.Key.DesignationId"></canvas>
                                 </div>
                             }
@@ -84,12 +84,12 @@
             @if (item2.Value.Any())
             {
                 <script>
-                  const ctx = document.getElementById('myChart-@item2.Key.DesignationId');
+                  ctx = document.getElementById('myChart-@item2.Key.DesignationId');
                 
                   new Chart(ctx, {
                     type: 'bar',
                     data: {                      
-                      labels: [ @Html.Raw(string.Join(",", item2.Value.Select(e => "'" + e.RollNumber + " " + e.Student.Name + " " + e.Student.Batch + "'"))) ],
+                      labels: [ @Html.Raw(string.Join(",", item2.Value.Select(e => "'"  + e.Student.Name  + "'"))) ],
                       datasets: [{
                         label: '# of Votes',
                         data: [ @string.Join(",", item2.Value.Select(e => e.Votes.Count)) ],
@@ -115,6 +115,7 @@
                       }]
                     },
                     options: {
+                        indexAxis: 'y',
                       scales: {
                         y: {
                           beginAtZero: true
