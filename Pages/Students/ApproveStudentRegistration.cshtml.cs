@@ -19,7 +19,7 @@ public class ApproveStudentRegistration : SiteadminBasePageModel
 
     public async Task OnGet()
     {
-        Students = await _context.Students.ToListAsync();
+        Students = await _context.Students.OrderBy(student => student.RollNumber).ToListAsync();
     }
 
     public async Task<IActionResult> OnPostAsync(string? rollNumber, bool isApproved, string rejectionReason)

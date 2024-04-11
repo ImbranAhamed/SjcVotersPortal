@@ -169,7 +169,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
                         IdCardFile = ms.ToArray(),
                         IdCarFileMime = Input.File.ContentType,
                         EmailId = Input.Email,
-                        IsApproved = rollNumberMatches,
+                        IsApproved = rollNumberMatches == false ? null : true,
                         RejectionReason = string.Empty,
                     });
                     await _context.SaveChangesAsync();
