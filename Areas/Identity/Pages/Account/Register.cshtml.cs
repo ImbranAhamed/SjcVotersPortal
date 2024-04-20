@@ -62,7 +62,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
         [BindProperty]
         public InputModel Input { get; set; }
 
-        public List<SelectListItem> Courses { get; set; } = [new SelectListItem("BSC CS", "BSC-CS"), new SelectListItem("BCA", "BC")];
+        public List<SelectListItem> Courses { get; set; } = [new SelectListItem("", ""), new SelectListItem("BSC CS", "BSC-CS"), new SelectListItem("BCA", "BC")];
 
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
