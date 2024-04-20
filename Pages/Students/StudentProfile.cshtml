@@ -26,12 +26,14 @@
     </tr>
 </table>
 <div>
-        @if (Model.Student.IdCarFileMime == "application/pdf")
-        {
-            <embed src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)" alt="ID Card" class="ratio ratio-16x9"/>
-        }
-        else
-        {
-            <img src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)" alt="ID Card" class="ratio ratio-16x9"/>
-        }
+    @if (Model.Student.IdCarFileMime == "application/pdf")
+    {
+        <embed src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)"
+            alt="ID Card" class="ratio ratio-16x9" />
+    }
+    else
+    {
+        <img src="data:@Model.Student.IdCarFileMime;base64, @Convert.ToBase64String(Model.Student.IdCardFile)" alt="ID Card"
+            class="ratio ratio-16x9" />
+    }
 </div>

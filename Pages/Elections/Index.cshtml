@@ -32,29 +32,30 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model.Election) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.NominationStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.NominationEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VotingStart)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.VotingEnd)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Association.Name)
-            </td>
-            <td>
-                <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
+        @foreach (var item in Model.Election)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NominationStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NominationEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VotingStart)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.VotingEnd)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Association.Name)
+                </td>
+                <td>
+                    <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-page="./Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

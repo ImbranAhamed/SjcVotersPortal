@@ -111,8 +111,8 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             public string ConfirmPassword { get; set; }
 
             [Required]
-            public string RollNumber { get; set; }    
-            
+            public string RollNumber { get; set; }
+
             [Required]
             public string Name { get; set; }
 
@@ -141,7 +141,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             {
                 ModelState.AddModelError("Input.RollNumber", "Already there exists a registration for this roll number. Contact office for help.");
             }
-            
+
             if (ModelState.IsValid)
             {
                 var user = CreateUser();
@@ -156,7 +156,7 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
 
                     using var ms = new MemoryStream();
                     await Input.File.CopyToAsync(ms);
-                    
+
                     var resultFromFile = await BarcodeReader.ReadAsync(ms);
                     var rollNumberMatches = resultFromFile.Values().Any(e => e.Equals("*" + Input.RollNumber.ToLower() + "*", StringComparison.CurrentCultureIgnoreCase));
                     await _userManager.AddToRoleAsync(user, NamedConstants.RoleNames.Student);

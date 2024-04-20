@@ -34,8 +34,8 @@ public class Student
     [MaxLength(100)]
     public string IdCarFileMime { get; set; }
 
-    public bool? IsApproved {get; set;}
-    
+    public bool? IsApproved { get; set; }
+
     [MaxLength(100)]
     public string RejectionReason { get; set; }
 }

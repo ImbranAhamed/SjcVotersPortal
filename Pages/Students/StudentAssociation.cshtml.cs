@@ -19,16 +19,16 @@ public class StudentAssociation : StudentBasePageModel
         public bool IsMember { get; set; }
     }
     public IList<DisplayModel> AssociationMemberships { get; set; }
-    
+
     public void OnGet()
     {
-        var allAssociations  = _context.Associations.Select(e => new DisplayModel
+        var allAssociations = _context.Associations.Select(e => new DisplayModel
         {
             AssociationId = e.Id,
             AssociationName = e.Name,
             IsMember = false
         }).ToDictionary(e => e.AssociationId, e => e);
-        
+
         var rollNumber = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower()).RollNumber;
         var memberOfAssociations = _context.StudentAssociations.Where(e => e.RollNumber == rollNumber).Select(e => e.AssociationId);
         foreach (var a in memberOfAssociations)
@@ -48,14 +48,14 @@ public class StudentAssociation : StudentBasePageModel
         {
             return RedirectToPage("./ElectionIsInProgress");
         }
-        
+
         if (studentAssociation.Any())
         {
             _context.StudentAssociations.RemoveRange(studentAssociation);
         }
         else
         {
-            _context.StudentAssociations.Add(new global::SjcVotersPortal.Data.Models.StudentAssociation() { RollNumber = rollNumber, AssociationId = associationId, TimeStamp = DateTimeHelper.Now});
+            _context.StudentAssociations.Add(new global::SjcVotersPortal.Data.Models.StudentAssociation() { RollNumber = rollNumber, AssociationId = associationId, TimeStamp = DateTimeHelper.Now });
         }
 
         await _context.SaveChangesAsync();

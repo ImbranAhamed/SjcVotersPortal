@@ -26,7 +26,7 @@ namespace SjcVotersPortal.Pages.Associations
         public Association Association { get; set; } = default!;
 
         [BindProperty]
-        public int[] DesignationsMapped { get ;set; }
+        public int[] DesignationsMapped { get; set; }
 
         public async Task<IActionResult> OnGetAsync(int? id)
         {
@@ -35,7 +35,7 @@ namespace SjcVotersPortal.Pages.Associations
                 return NotFound();
             }
 
-            var association =  await _context.Associations.FirstOrDefaultAsync(m => m.Id == id);
+            var association = await _context.Associations.FirstOrDefaultAsync(m => m.Id == id);
             if (association == null)
             {
                 return NotFound();
@@ -64,7 +64,7 @@ namespace SjcVotersPortal.Pages.Associations
 
             var ndms = new List<AssociationDesignation>();
             //add  new mappings
-            foreach(var d in DesignationsMapped)
+            foreach (var d in DesignationsMapped)
             {
                 ndms.Add(new AssociationDesignation { Association = Association, DesignationID = d });
             }

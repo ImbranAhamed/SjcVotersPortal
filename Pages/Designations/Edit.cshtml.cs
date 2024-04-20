@@ -30,7 +30,7 @@ namespace SjcVotersPortal.Pages.Designations
                 return NotFound();
             }
 
-            var designation =  await _context.Designations.FirstOrDefaultAsync(m => m.Id == id);
+            var designation = await _context.Designations.FirstOrDefaultAsync(m => m.Id == id);
             if (designation == null)
             {
                 return NotFound();

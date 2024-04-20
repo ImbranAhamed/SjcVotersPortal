@@ -30,13 +30,13 @@ namespace SjcVotersPortal.Pages_Elections
                 return NotFound();
             }
 
-            var election =  await _context.Elections.FirstOrDefaultAsync(m => m.Id == id);
+            var election = await _context.Elections.FirstOrDefaultAsync(m => m.Id == id);
             if (election == null)
             {
                 return NotFound();
             }
             Election = election;
-           ViewData["AssociationId"] = new SelectList(_context.Associations, "Id", "Id");
+            ViewData["AssociationId"] = new SelectList(_context.Associations, "Id", "Id");
             return Page();
         }
 

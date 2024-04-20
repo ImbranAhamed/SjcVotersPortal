@@ -19,7 +19,7 @@ namespace SjcVotersPortal.Pages_Elections
             _context = context;
         }
 
-        public IList<Election> Election { get;set; } = default!;
+        public IList<Election> Election { get; set; } = default!;
 
         public async Task OnGetAsync()
         {

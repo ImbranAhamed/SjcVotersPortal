@@ -16,7 +16,8 @@
             <input type="hidden" asp-for="Election.Id" />
             <div class="form-group">
                 <label asp-for="Election.AssociationId" class="control-label"></label>
-                <select asp-for="Election.AssociationId" class="form-control" asp-items="ViewBag.AssociationId"></select>
+                <select asp-for="Election.AssociationId" class="form-control"
+                    asp-items="ViewBag.AssociationId"></select>
                 <span asp-validation-for="Election.AssociationId" class="text-danger"></span>
             </div>
             <div class="form-group">
@@ -51,5 +52,7 @@
 </div>
 
 @section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
 }

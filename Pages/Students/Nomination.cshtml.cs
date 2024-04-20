@@ -38,13 +38,13 @@ public class Nomination : StudentBasePageModel
     public async Task<IActionResult> OnPostAsync(int electionId, int designationId)
     {
         var now = DateTimeHelper.Now;
-        var isNominationOpen = _context.Elections.Any(e => e.Id == electionId &&  now > e.NominationStart && now < e.NominationEnd);
+        var isNominationOpen = _context.Elections.Any(e => e.Id == electionId && now > e.NominationStart && now < e.NominationEnd);
         if (isNominationOpen == false)
         {
             TempData[NamedConstants.TempKeys.Failure] = "Nomination not open";
             return RedirectToPage();
         }
-        
+
         var rollNumber = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower()).RollNumber;
 
         var currentNominations = _context.Nominations.Where(e => e.ElectionId == electionId && e.RollNumber == rollNumber);

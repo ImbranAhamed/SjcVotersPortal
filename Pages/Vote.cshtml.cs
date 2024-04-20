@@ -17,7 +17,7 @@ public class Vote : PageModel
 
     public Dictionary<(int ElectionId, string AssociationName), Dictionary<(int DesignationId, string DesignantionName), List<Student>>> Data;
     public List<Data.Models.Vote> Votes;
-    
+
     public void OnGet()
     {
         var now = DateTimeHelper.Now;
@@ -26,7 +26,7 @@ public class Vote : PageModel
             election => _context.AssociationDesignations.Where(associationDesignation => associationDesignation.AssociationId == election.AssociationId)
                 .Select(associationDesignation => associationDesignation.Designation).ToDictionary(designation => (designation.Id, designation.Name),
                     _ => new List<Student>()));
-    
+
         foreach (var item in Data)
         {
             foreach (var item2 in item.Value)
@@ -36,7 +36,7 @@ public class Vote : PageModel
                 item2.Value.AddRange(students);
             }
         }
-        
+
         var currentStudent = _context.Students.Single(e => e.EmailId.ToLower() == User.Identity!.Name!.ToLower());
         Votes = _context.Votes.Include(e => e.Nomimation).Where(e => e.RollNumber == currentStudent.RollNumber).ToList();
     }

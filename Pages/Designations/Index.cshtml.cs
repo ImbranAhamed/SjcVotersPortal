@@ -19,7 +19,7 @@ namespace SjcVotersPortal.Pages.Designations
             _context = context;
         }
 
-        public IList<Designation> Designation { get;set; } = default!;
+        public IList<Designation> Designation { get; set; } = default!;
 
         public async Task OnGetAsync()
         {

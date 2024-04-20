@@ -2,5 +2,5 @@
 
 public static class DateTimeHelper
 {
-    public static DateTime Now => DateTime.Now.AddDays(2).AddHours(-10);
+    public static DateTime Now => DateTime.Now.AddDays(0).AddHours(0);
 }

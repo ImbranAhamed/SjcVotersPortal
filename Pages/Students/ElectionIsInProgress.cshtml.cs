@@ -6,6 +6,6 @@ public class ElectionIsInProgress : PageModel
 {
     public void OnGet()
     {
-        
+
     }
 }

@@ -15,7 +15,7 @@ public class ApproveStudentRegistration : SiteadminBasePageModel
         _context = context;
     }
 
-    public IList<Student> Students { get;set; } = default!;
+    public IList<Student> Students { get; set; } = default!;
 
     public async Task OnGet()
     {

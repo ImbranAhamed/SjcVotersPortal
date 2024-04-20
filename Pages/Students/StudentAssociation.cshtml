@@ -9,37 +9,38 @@
 
 <table class="table">
     <thead>
-    <tr>
-        <th>
-            @Html.DisplayNameFor(m => m.AssociationMemberships.First().AssociationName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(m => m.AssociationMemberships.First().IsMember)
-        </th>
-        <th></th>
-    </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(m => m.AssociationMemberships.First().AssociationName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(m => m.AssociationMemberships.First().IsMember)
+            </th>
+            <th></th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var item in Model.AssociationMemberships)
-    {
-        <tr>
-            <td>@item.AssociationName</td>
-            <td>@if (item.IsMember)
-                {
-                    <span>&#10004;</span> 
-                }
-                else
-                {
-                     <span>&#10006;</span> 
-                }
+        @foreach (var item in Model.AssociationMemberships)
+        {
+            <tr>
+                <td>@item.AssociationName</td>
+                <td>@if (item.IsMember)
+                    {
+                        <span>&#10004;</span>
+                    }
+                    else
+                    {
+                        <span>&#10006;</span>
+                    }
                 </td>
-            <td>
-                <form method="post">
-                    <input type="hidden" name="AssociationId" value="@item.AssociationId"/>
-                    <input type="submit" value="@(item.IsMember ? "Exit" : "Join")" class="btn btn-@(item.IsMember ? "danger" : "success") btn-sm"/>
-                </form>
-            </td>
-        </tr>
-    }
+                <td>
+                    <form method="post">
+                        <input type="hidden" name="AssociationId" value="@item.AssociationId" />
+                        <input type="submit" value="@(item.IsMember ? "Exit" : "Join")"
+                            class="btn btn-@(item.IsMember ? "danger" : "success") btn-sm" />
+                    </form>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

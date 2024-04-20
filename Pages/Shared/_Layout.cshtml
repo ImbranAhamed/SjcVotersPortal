@@ -1,70 +1,74 @@
 ﻿<!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="utf-8"/>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - SJC Voters Portal</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css"/>
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="stylesheet" href="~/SjcVotersPortal.styles.css" asp-append-version="true"/>
+    <link rel="stylesheet" href="~/lib/bootstrap/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/SjcVotersPortal.styles.css" asp-append-version="true" />
 </head>
+
 <body>
-<header>
-    <div class="container">
-    <div class="row">
-        <div class="col-md-2 text-center">
-            <img src="~/images/college-logo.png" alt="college logo"/>
-        </div>
-        <div class="col-md-10 fs-4">
-            <span>St. Joseph's College Of Arts & Science (Autonomous)</span> <br/>
-            <span>Cuddalore</span> <br/>
-            <span>Voters Portal</span> <br/>
-        </div>
-    </div>
-    </div>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: rgb(153, 255, 153); color: black;">
+    <header>
         <div class="container">
-            <a class="navbar-brand" asp-area="" asp-page="/Index">SJC Voters Portal</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                    aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                <partial name="_Menu"/>
-                <partial name="_LoginPartial"/>
+            <div class="row">
+                <div class="col-md-2 text-center">
+                    <img src="~/images/college-logo.png" alt="college logo" />
+                </div>
+                <div class="col-md-10 fs-4">
+                    <span>St. Joseph's College Of Arts & Science (Autonomous)</span> <br />
+                    <span>Cuddalore</span> <br />
+                    <span>Voters Portal</span> <br />
+                </div>
             </div>
         </div>
-    </nav>
-</header>
-<div class="container">
-    <main role="main" class="pb-3">
-        @if (TempData.Peek(NamedConstants.TempKeys.Success) != null)
-        {
-            <div class="alert alert-success" role="alert">
-                @TempData[NamedConstants.TempKeys.Success]
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3"
+            style="background-color: rgb(153, 255, 153); color: black;">
+            <div class="container">
+                <a class="navbar-brand" asp-area="" asp-page="/Index">SJC Voters Portal</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
+                    <partial name="_Menu" />
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-        }
-        @if (TempData.Peek(NamedConstants.TempKeys.Failure) != null)
-        {
-            <div class="alert alert-danger" role="alert">
-                @TempData[NamedConstants.TempKeys.Failure]
-            </div>
-        }
-
-        @RenderBody()
-    </main>
-</div>
-
-<footer class="border-top footer text-muted">
+        </nav>
+    </header>
     <div class="container">
-        &copy; 2024 - SJC Voters Portal  <span class="text-danger">Time : @DateTimeHelper.Now</span>
+        <main role="main" class="pb-3">
+            @if (TempData.Peek(NamedConstants.TempKeys.Success) != null)
+            {
+                    <div class="alert alert-success" role="alert">
+                    @TempData[NamedConstants.TempKeys.Success]
+                    </div>
+            }
+            @if (TempData.Peek(NamedConstants.TempKeys.Failure) != null)
+            {
+                    <div class="alert alert-danger" role="alert">
+                    @TempData[NamedConstants.TempKeys.Failure]
+                    </div>
+            }
+
+            @RenderBody()
+        </main>
     </div>
-</footer>
 
-<script src="~/lib/jquery/jquery.min.js"></script>
-<script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
-<script src="~/js/site.js" asp-append-version="true"></script>
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2024 - SJC Voters Portal <span class="text-danger">Time : @DateTimeHelper.Now</span>
+        </div>
+    </footer>
 
-@await RenderSectionAsync("Scripts", required: false)
+    <script src="~/lib/jquery/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @await RenderSectionAsync("Scripts", required: false)
 </body>
+
 </html>

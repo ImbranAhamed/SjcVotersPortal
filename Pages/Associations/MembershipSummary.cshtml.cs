@@ -29,7 +29,7 @@ namespace SjcVotersPortal.Pages.Associations
                 Count = 0
             }).ToDictionary(e => e.AssociationId, e => e);
 
-            var groupBy = _context.StudentAssociations.GroupBy(e => e.AssociationId).Select(e => new { e.Key, Count =  e.Count() } );
+            var groupBy = _context.StudentAssociations.GroupBy(e => e.AssociationId).Select(e => new { e.Key, Count = e.Count() });
 
             foreach (var item in groupBy)
             {

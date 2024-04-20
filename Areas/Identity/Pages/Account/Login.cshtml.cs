@@ -118,13 +118,13 @@ namespace SjcVotersPortal.Areas.Identity.Pages.Account
             if (ModelState.IsValid)
             {
                 var user = await _signInManager.UserManager.FindByEmailAsync(Input.Email);
-                var isInStudentRole =  await _signInManager.UserManager.IsInRoleAsync(user, NamedConstants.RoleNames.Student);
+                var isInStudentRole = await _signInManager.UserManager.IsInRoleAsync(user, NamedConstants.RoleNames.Student);
                 if (isInStudentRole)
                 {
                     var student = _context.Students.Single(e => e.EmailId.ToLower() == Input.Email.ToLower());
                     if (student.IsApproved is null or false)
                     {
-                        return RedirectToPage("./StudentRegistrationNotApproved", new {student.IsApproved});
+                        return RedirectToPage("./StudentRegistrationNotApproved", new { student.IsApproved });
                     }
                 }
                 // This doesn't count login failures towards account lockout
